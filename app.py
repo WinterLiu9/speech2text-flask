@@ -42,7 +42,6 @@ def index():
             audio_file.filename, language, translation, email))
         thread.start()
         return render_template('index.html', message='Your audio file has been uploaded, pls check your email later')
-    logging.info(f'here is a Get. time: {datetime.now()}')
     return render_template('index.html')
 
 
