@@ -34,7 +34,8 @@ def index():
 
         audio_file.save(os.path.join('media', audio_file.filename))
 
-        thread = Thread(target=go, args=(audio_file.filename, language, translation, email))
+        thread = Thread(target=go, args=(
+            audio_file.filename, language, translation, email))
         thread.start()
         return render_template('index.html', message='Your audio file has been uploaded, pls check your email later')
 
@@ -44,10 +45,10 @@ def index():
 def go(file_name, language, translation, email):
     # split into small file
     split_wav = SplitWavAudioMubin('./media', file_name)
-    split_wav.multiple_split(min_per_split=1)
+    split_wav.multiple_split(min_per_split=4)
 
     openai = OpenaiAPI('./media', file_name,
-                        split_wav.split_files, language, translation)
+                       split_wav.split_files, language, translation)
     openai.speech2text()
 
     en_res = openai.texts
