@@ -5,9 +5,12 @@ import os
 from threading import Thread
 from gmail_service import GMailService
 from openai_service import OpenaiAPI
+import logging
 
 from split_audio import SplitWavAudioMubin
 from util import is_valid_email
+
+logging.basicConfig(level=logging.INFO, filename='app.log', format='%(asctime)s - %(levelname)s - %(message)s')
 
 scheduler = APScheduler()
 app = Flask(__name__)
@@ -21,7 +24,7 @@ def index():
         email = request.form['email']
         token = request.form['token']
         audio_file = request.files['audio']
-
+        logging.info(f'here is a request. file_name:{audio_file.filename}, email: {email}, language: {language}')
         config_token = os.getenv('token')
         if token != config_token:
             return render_template('index.html', message='Please enter the correct token.')
