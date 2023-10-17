@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #4285F4;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="file"] {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="checkbox"] {
+            margin-top: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            margin-top: 20px;
+            color: #4285F4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Speech2Text</h1>
+    <h2>本转写模型基于OpenAI的<a href="https://openai.com/blog/introducing-chatgpt-and-whisper-apis">Whisper</a>模型</h2>
+    <h2>请上传需要转写的语音文件,并选择文件的语言</h2>
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <label for="language">Language:</label>
+        <select id="language" name="language" onchange="showTranslationCheckbox()" required>
+            <option value="en" selected>English</option>
+            <option value="zh">Chinese</option>
+        </select><br><br>
+        
+        <label for="translation" id="translationLabel">Translation Needed:</label>
+        <input type="checkbox" id="translation" name="translation" checked><br>
+        <span class="description">Check this if you need translation</span><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="audio">Audio File:</label>
+        <input type="file" id="audio" name="audio" accept="audio/*" required><br><br>
+        
+        <label for="token">Token:</label>
+        <input type="text" id="token" name="token" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
+    <script>
+        function showTranslationCheckbox() {
+            var languageSelect = document.getElementById('language');
+            var translationCheckbox = document.getElementById('translation');
+            var translationLabel = document.getElementById('translationLabel');
+            if (languageSelect.value === 'en') {
+                translationCheckbox.classList.remove('hidden');
+                translationLabel.classList.remove('hidden');
+            } else {
+                translationCheckbox.classList.add('hidden');
+                translationLabel.classList.add('hidden');
+            }
+        }
+        
+        window.onload = function() {
+            showTranslationCheckbox();
+        };
+    </script>
+</body>
+</html>
