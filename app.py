@@ -1,4 +1,5 @@
 
+import datetime
 from flask import Flask, render_template, request
 from flask_apscheduler import APScheduler
 import os
@@ -41,7 +42,7 @@ def index():
             audio_file.filename, language, translation, email))
         thread.start()
         return render_template('index.html', message='Your audio file has been uploaded, pls check your email later')
-
+    logging.info(f'here is a Get. time: {datetime.now()}')
     return render_template('index.html')
 
 
